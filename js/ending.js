@@ -25,63 +25,11 @@ class EndingEngine {
         AudioManager.endingVolume();
         await Utils.sleep(1000);
         this.revealMoon();
-        this.revealCharacters();
         await Utils.sleep(1500);
         this.showMessage();
         this.enhanceStars();
     }
-revealCharacters() {
 
-    gsap.fromTo(
-        ".foxCharacter",
-        {
-            opacity:0,
-            x:-40,
-            y:30
-        },
-        {
-            opacity:1,
-            x:0,
-            y:0,
-            duration:1.5,
-            ease:"power3.out"
-        }
-    );
-
-    gsap.fromTo(
-        ".pigCharacter",
-        {
-            opacity:0,
-            x:40,
-            y:30
-        },
-        {
-            opacity:1,
-            x:0,
-            y:0,
-            duration:1.5,
-            delay:.2,
-            ease:"power3.out"
-        }
-    );
-    gsap.to(".foxCharacter",{
-    y:"-=4",
-    duration:2.8,
-    repeat:-1,
-    yoyo:true,
-    ease:"sine.inOut"
-});
-
-gsap.to(".pigCharacter",{
-    y:"-=3",
-    duration:3.2,
-    repeat:-1,
-    yoyo:true,
-    ease:"sine.inOut"
-
-});
-
-}
 
     revealMoon() {
         const moon =

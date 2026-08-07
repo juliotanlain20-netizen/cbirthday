@@ -2474,6 +2474,8 @@ body.cursor-hidden #cursor-dot {
         scale(.98);
 
 }
+
+
 /* ==========================================================
    ERROR
 ========================================================== */
@@ -4033,20 +4035,4 @@ body.cursor-hidden #cursor-dot {
         0 0 8px currentColor,
         0 0 18px currentColor,
         0 0 32px currentColor;
-}
-.characterGroup{
-    position:absolute;
-    left:50%;
-    bottom:160px;
-    transform:translateX(-50%);
-    display:flex;
-    align-items:flex-end;
-    gap:20px;
-    z-index:5;
-}
-.characterGroup img{
-    width:130px;
-    user-select:none;
-    pointer-events:none;
-
 }
