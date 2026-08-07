@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy 20th, Chika.</title>
+
+    <meta name="theme-color" content="#060913">
+
+    <meta name="description" content="A little celebration.">
+
+    <!-- FONT -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- ================================================= -->
+
+    <!-- LOADER -->
+
+    <!-- ================================================= -->
+
+    <div id="loader">
+
+        <div class="loader-center">
+
+            <div class="loader-logo">
+
+                ✦
+
+            </div>
+
+            <div class="loader-line">
+
+                <span></span>
+
+            </div>
+
+            <p>
+
+                Preparing something special...
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+
+    <!-- BACKGROUND -->
+
+    <!-- ================================================= -->
+
+    <canvas id="stars"></canvas>
+
+    <div id="aurora"></div>
+
+    <div id="fog"></div>
+
+    <div id="noise"></div>
+
+    <div id="meteor-container"></div>
+
+    <div id="cursor"></div>
+
+    <div id="cursor-dot"></div>
+
+    <div id="ambientWords">
+        <span>Hope</span>
+        <span>Peace</span>
+        <span>Grace</span>
+        <span>Joy</span>
+        <span>Bloom</span>
+        <span>Twenty</span>
+        <span>Dream</span>
+
+        <span>Faith</span>
+
+    </div>
+
+    <!-- ================================================= -->
+
+    <!-- MUSIC -->
+
+    <!-- ================================================= -->
+
+    <audio id="bgm" preload="auto" loop>
+
+        <source src="assets/music.mp3" type="audio/mpeg">
+
+    </audio>
+
+    <!-- ================================================= -->
+
+    <!-- MAIN -->
+
+    <!-- ================================================= -->
+
+    <main id="app">
+
+        <!-- ================================================= -->
+        <!-- ACT I -->
+        <!-- INTRO -->
+        <!-- ================================================= -->
+        <!-- ================================================= -->
+        <!-- ACT I -->
+        <!-- INTRO -->
+        <!-- ================================================= -->
+        <section id="intro" class="scene">
+            <!-- Ubah ini menjadi intro-content -->
+            <div class="intro-content">
+
+                <div class="tiny-star">✦</div>
+
+                <div class="intro-text">
+                    <!-- Tambahkan class intro-title dan intro-subtitle -->
+                    <h1 class="intro-title">For you</h1>
+                    <h2 class="intro-subtitle" id="introTyping"></h2>
+                </div>
+
+                <div class="scrollHint">click anywhere</div>
+
+            </div>
+        </section>
+
+        <!-- ================================================= -->
+        <!-- ACT II -->
+        <!-- UNLOCK -->
+        <!-- ================================================= -->
+
+        <section id="unlock" class="scene">
+            <div class="glass-card">
+                <div class="candleIcon">
+                    🕯️
+                </div>
+                <h2>
+                    This page
+                    <br>
+                    was made
+                    <br>
+                    for one person
+                </h2>
+                <p>
+                    If that's you,
+                    tell me
+                    when your story began
+                </p>
+                <div class="birthday-input">
+                    <input id="day" maxlength="2" placeholder="DD">
+                    <select id="month">
+                        <option value="">
+                            Month
+                        </option>
+                        <option value="10">
+                            October
+                        </option>
+                    </select>
+                    <input id="year" maxlength="4" placeholder="YYYY">
+                </div>
+                <button id="unlockBtn">
+                    Unlock
+                </button>
+                <div id="unlockError">
+                </div>
+            </div>
+        </section>
+        <!-- ================================================= -->
+        <!-- ACT III -->
+        <!-- STORY -->
+        <!-- ================================================= -->
+        <section id="story" class="scene">
+            <div class="story-wrapper">
+                <div class="story-progress">
+                    <div class="story-bar">
+                    </div>
+                </div>
+                <h2 id="storyTitle"></h2>
+                <div id="storyText">
+                </div>
+                <div class="nextHint">
+                    click to continue
+                </div>
+            </div>
+        </section>
+        <!-- ================================================= -->
+        <!-- ACT IV -->
+        <!-- CELEBRATION -->
+        <!-- ================================================= -->
+        <section id="celebration" class="scene">
+            <div class="celebration-wrapper">
+                <div id="cake">
+                    <div class="cake-shadow">
+                    </div>
+                    <div class="cake-base">
+                        <div class="cream"></div>
+                        <div class="cream second"></div>
+                        <div class="cream third"></div>
+                    </div>
+                    <div class="candles">
+                        <div class="candle left">
+                            <div class="flame">
+                            </div>
+                        </div>
+                        <div class="candle right">
+                            <div class="flame">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2>
+                    Make a wish.
+                </h2>
+                <p>
+                    Then blow the candles.
+                </p>
+                <button id="blowBtn">
+                    Blow Candles
+                </button>
+            </div>
+        </section>
+        <!-- ================================================= -->
+        <!-- ACT V -->
+        <!-- GALLERY -->
+        <!-- ================================================= -->
+        <section id="gallery" class="scene">
+            <div class="galleryTitle">
+                Moments
+            </div>
+            <div class="galleryGrid">
+                <div class="photo photo1">
+                    <img src="assets/photos/j.png">
+                    <span>
+                        Joy.
+                    </span>
+                </div>
+                <div class="photo photo2">
+                    <img src="assets/photos/aaa.png">
+                    <span>
+                        Hope.
+                    </span>
+                </div>
+                <div class="photo photo3">
+                    <img src="assets/photos/soal1.png">
+                    <span>
+                        Grace.
+                    </span>
+                </div>
+                <div class="photo photo4">
+                    <img src="assets/photos/soal2.png">
+                    <span>
+                        Bloom.
+                    </span>
+                </div>
+                <div class="photo photo5">
+                    <img src="assets/photos/aaa.png">
+                    <span>
+                        Twenty.
+                    </span>
+                </div>
+            </div>
+            <button id="galleryNext">
+                Continue
+            </button>
+        </section>
+        <!-- ================================================= -->
+        <!-- ACT VI -->
+        <!-- FINAL MESSAGE -->
+        <!-- ================================================= -->
+        <section id="blessing" class="scene">
+            <div class="ambientLayer"></div>
+            <div class="blessingWrapper">
+                <div class="crossGlow">✦</div>
+                <h1 id="blessingTitle">
+                    Happy Birthday,<br>
+                    Chika.
+                </h1>
+                <p id="blessingText"></p>
+                <button id="continueEnding">
+                    Continue
+                </button>
+            </div>
+        </section>
+        <!-- ================================================= -->
+        <!-- ACT VII -->
+        <!-- NIGHT -->
+        <!-- ================================================= -->
+        <section id="ending" class="scene">
+            <div class="nightWrapper">
+                <div class="moon">
+                </div>
+                <div class="nightStars"></div>
+                <div class="characterGroup">
+
+                    <img src="assets/characters/fox.png" class="foxCharacter" alt="Fox">
+
+                    <img src="assets/characters/pig.png" class="pigCharacter" alt="Pig">
+
+                </div>
+                <div class="endingContent">
+                    <h2>
+                        Wherever
+                        life
+                        takes you...
+                    </h2>
+                    <p>
+                        May God bless
+                        every step
+                        you take.
+                    </p>
+                    <h3>
+                        October 1st, 2026
+                    </h3>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- ================================================= -->
+    <!-- OVERLAY -->
+    <!-- ================================================= -->
+    <div id="transitionOverlay">
+    </div>
+    <div id="flash">
+    </div>
+    <!-- ================================================= -->
+    <!-- SCRIPT -->
+    <!-- ================================================= -->
+
+    <!-- LIBRARY -->
+    <script src="libs/gsap.min.js"></script>
+    <!-- Tambahkan baris ini -->
+    <script src="libs/lenis.min.js"></script>
+    <script src="libs/confetti.min.js"></script>
+    <script src="libs/lottie.min.js"></script>
+    <!-- <script src="libs/typed.min.js"></script> -->
+
+    <!-- CORE CONFIG -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/debug.js"></script>
+
+    <!-- DOM SYSTEM -->
+    <script src="js/domAdapter.js"></script>
+
+    <!-- ENGINE CORE -->
+    <script src="js/sceneManager.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/aurora.js"></script>
+    <script src="js/particle.js"></script>
+    <script src="js/audio.js"></script>
+    <!-- SCENES -->
+
+    <script src="js/intro.js"></script>
+    <script src="js/unlock.js"></script>
+    <script src="js/story.js"></script>
+    <script src="js/cake.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/blessing.js"></script>
+    <script src="js/ending.js"></script>
+    <script src="js/meteor.js"></script>
+    <script src="js/fog.js"></script>
+
+    <!-- OPTIONAL OLD SCRIPT -->
+    <!-- START APPLICATION LAST -->
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
