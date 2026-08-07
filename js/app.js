@@ -6,6 +6,7 @@
  * =====================================================
  */
 "use strict";
+window.IS_MOBILE = window.innerWidth <= 768;
 // history.scrollRestoration = "manual";
 // window.scrollTo(0, 0);
 class AuroraApp {

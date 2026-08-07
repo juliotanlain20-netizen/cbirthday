@@ -15,8 +15,8 @@ class MeteorEngine {
         this.container = null;
 
         this.enabled = true;
-
-        this.maxMeteor = 3;
+        this.maxMeteor = window.IS_MOBILE ? 1 : 3;
+        // this.maxMeteor = 3;
 
         this.active = 0;
 
@@ -64,11 +64,9 @@ class MeteorEngine {
         if (!this.running)
             return;
 
-        const delay =
-            Utils.random(
-                1800,
-                4500
-            );
+        const delay = window.IS_MOBILE
+            ? Utils.random(3500, 6000)
+            : Utils.random(1800, 4500);
 
         this.timer = setTimeout(() => {
 
@@ -105,8 +103,8 @@ class MeteorEngine {
         const startX =
             Utils.random(
                 window.innerWidth * .02,
-                window.innerWidth *.9
-                
+                window.innerWidth * .9
+
             );
 
         const startY =
@@ -181,11 +179,11 @@ class MeteorEngine {
 
     }
     spawnBurst(amount = 2) {
-
+        if (window.IS_MOBILE) {
+            amount = 1;
+        }
         for (let i = 0; i < amount; i++) {
-
             setTimeout(() => {
-
                 if (this.active < this.maxMeteor + 2) {
                     this.spawn();
                 }

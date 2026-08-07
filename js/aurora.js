@@ -17,85 +17,54 @@ class AuroraEngine {
             x: window.innerWidth / 2,
             y: window.innerHeight / 2
         };
-
         this.position = {
             x: 0,
             y: 0
         };
-
         this.time = 0;
-
-        this.speed = 0.03;
-
+        this.speed = window.IS_MOBILE ? 0.02 : 0.03;
         this.animationFrame = null;
 
     }
 
     init() {
-
         this.element = document.getElementById("aurora");
-
         if (!this.element) return;
-
         this.bindEvents();
-
         this.animate();
-
     }
-
     bindEvents() {
-
         window.addEventListener("mousemove", e => {
-
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
-
         });
-
         window.addEventListener(
-
             "resize",
-
             Utils.debounce(() => {
-
                 this.mouse.x = window.innerWidth / 2;
                 this.mouse.y = window.innerHeight / 2;
-
             }, 150)
-
         );
-
     }
-
     animate() {
 
         this.time += 0.003;
-
         this.position.x = Utils.lerp(
-
             this.position.x,
-
             (this.mouse.x - window.innerWidth / 2) * 0.015,
-
             this.speed
-
         );
-
         this.position.y = Utils.lerp(
-
             this.position.y,
-
             (this.mouse.y - window.innerHeight / 2) * 0.015,
-
             this.speed
-
         );
 
-        const floatX = Math.sin(this.time * 1.8) * 45;
-        const floatY = Math.cos(this.time * 1.2) * 35;
-        const rotate = Math.sin(this.time) * 8;
-        const scale = 1 
-        + Math.sin(this.time * .8) * .03;
+        const floatX = Math.sin(this.time * 1.8) * (window.IS_MOBILE ? 25 : 45);
+        const floatY = Math.cos(this.time * 1.2) * (window.IS_MOBILE ? 20 : 35);
+        const rotate = Math.sin(this.time) * (window.IS_MOBILE ? 4 : 8);
+        const scale = 1
+            + Math.sin(this.time * .8) * .03;
         this.element.style.transform = `
     translate(
         ${this.position.x + floatX}px,
@@ -186,7 +155,7 @@ class AuroraEngine {
         this.element.style.background = color;
 
     }
-    
+
 
 }
 

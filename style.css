@@ -1868,7 +1868,7 @@ body.cursor-hidden #cursor-dot {
             rgba(103, 216, 255, .10),
             rgba(155, 124, 255, .06),
             transparent 70%);
-    filter: blur(90px);
+    filter: blur(60px);
     z-index: -1;
     animation:
         introGlow 10s ease-in-out infinite alternate;
@@ -3553,7 +3553,7 @@ body.cursor-hidden #cursor-dot {
             rgba(103, 216, 255, .08),
             rgba(155, 124, 255, .06),
             transparent 70%);
-    filter: blur(90px);
+    filter: blur(60px);
     z-index: -1;
     border-radius: 50%;
     gap: 20px;
@@ -3757,7 +3757,7 @@ body.cursor-hidden #cursor-dot {
 
             transparent 70%);
 
-    filter: blur(80px);
+    filter: blur(60px);
 
 }
 

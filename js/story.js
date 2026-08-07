@@ -24,38 +24,38 @@ class StoryEngine {
         this.typing = false;
         this.finishedTyping = false;
         this.story = [
-            {
-                title: "A Special Day",
+            // {
+            //     title: "A Special Day",
 
-                text:
-                    "Some moments deserve a little more than just a simple greeting."
-            },
-            {
-                title: "Twenty",
-                text:
-                    "Today marks another beautiful chapter of your journey. Twenty years of memories, dreams, laughter, and countless little moments that shaped who you are."
-            },
+            //     text:
+            //         "Some moments deserve a little more than just a simple greeting."
+            // },
+            // {
+            //     title: "Twenty",
+            //     text:
+            //         "Today marks another beautiful chapter of your journey. Twenty years of memories, dreams, laughter, and countless little moments that shaped who you are."
+            // },
 
-            {
-                title: "Keep Shining",
-                text:
-                    "I hope life continues to bring you reasons to smile, people who appreciate you, and opportunities that lead you closer to your dreams."
-            },
-            {
-                title: "A Little Reminder",
-                text:
-                    "Never forget that you are someone valuable. The world is brighter because you exist in it."
-            },
-            {
-                title: "Your Day",
-                text:
-                    "So today, celebrate yourself. Eat something sweet, make a wish, and enjoy every little happiness that comes your way."
-            },
-            {
-                title: "Happy Birthday",
-                text:
-                    "Happy 20th Birthday, Chika. May this new chapter bring you endless happiness, peace, and beautiful surprises."
-            }
+            // {
+            //     title: "Keep Shining",
+            //     text:
+            //         "I hope life continues to bring you reasons to smile, people who appreciate you, and opportunities that lead you closer to your dreams."
+            // },
+            // {
+            //     title: "A Little Reminder",
+            //     text:
+            //         "Never forget that you are someone valuable. The world is brighter because you exist in it."
+            // },
+            // {
+            //     title: "Your Day",
+            //     text:
+            //         "So today, celebrate yourself. Eat something sweet, make a wish, and enjoy every little happiness that comes your way."
+            // },
+            // {
+            //     title: "Happy Birthday",
+            //     text:
+            //         "Happy 20th Birthday, Chika. May this new chapter bring you endless happiness, peace, and beautiful surprises."
+            // }
 
         ];
     }

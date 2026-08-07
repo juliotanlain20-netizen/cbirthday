@@ -1,45 +1,45 @@
-// class FogEngine {
+class FogEngine {
 
-//     constructor() {
+    constructor() {
 
-//         this.element = null;
+        this.element = null;
 
-//     }
+    }
 
-//     init() {
+    init() {
 
-//         this.element = document.getElementById("fog");
+        this.element = document.getElementById("fog");
 
-//         if (!this.element) return;
+        if (!this.element) return;
 
-//         gsap.to(this.element, {
-//             opacity: 1,
-//             duration: 2,
-//             ease: "power2.out"
-//         });
+        gsap.to(this.element, {
+            opacity: 1,
+            duration: 2,
+            ease: "power2.out"
+        });
 
-//     }
+    }
 
-//     fadeIn() {
+    fadeIn() {
 
-//         gsap.to(this.element,{
-//             opacity:1,
-//             duration:1.5
-//         });
+        gsap.to(this.element,{
+            opacity:1,
+            duration:1.5
+        });
 
-//     }
+    }
 
-//     fadeOut() {
+    fadeOut() {
 
-//         gsap.to(this.element,{
-//             opacity:0,
-//             duration:1.5
-//         });
+        gsap.to(this.element,{
+            opacity:0,
+            duration:1.5
+        });
 
-//     }
+    }
 
-// }
+}
 
-// window.FogEngine = new FogEngine();
+window.FogEngine = new FogEngine();
 
-// console.log("✓ Fog Engine Loaded");
+console.log("✓ Fog Engine Loaded");
