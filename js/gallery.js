@@ -24,31 +24,62 @@ class GalleryEngine {
             ...this.scene.querySelectorAll(".photo")
         ];
 
-        this.photos = this.cards.map(card => ({
-            src: card.querySelector("img").src,
-            caption: card.querySelector("span").textContent.trim()
-        }));
+        const letters = {
+            "Toxic.": `
+        <p>
+            This photo still makes me laugh every single time. Every angel deserves a little bit of chaos now and then.  I think this picture proves it.
+        </p>
+
+    `,
+            "Mini.": `
+        <p>
+            I wonder what little Chika dreamed about back then. Whatever those dreams were, I hope she'd be proud of the wonderful person you've become today.Happy 20th Birthday, little one.
+        </p>
+    `,
+
+            "Cute.": `
+        <p>
+            Some smiles never really change. This one still feels just as warm as the first time I saw it. I hope life never takes away this part of you.
+        </p>
+    `,
+
+            "Beautiful.": `
+         <p>
+            There are probably prettier photos. But somehow... This one has always felt the most "you" to me.
+        </p>
+    `,
+
+            "Radiance.": `
+        <p>
+            Some people simply have a way of brightening a room without trying.This photo reminds me of that kind of light. Quiet, gentle, and unforgettable.
+        </p>
+
+    `,
+
+            "Stunning.": `
+        <p>
+            Twenty looks beautiful on you.
+             I genuinely hope life keeps being kind to the wonderful person you are.
+        </p>
+    `
+        };
+
+        this.photos = this.cards.map(card => {
+
+            const caption = card.querySelector("span").textContent.trim();
+
+            return {
+                src: card.querySelector("img").src,
+                caption,
+                letter: letters[caption] || ""
+            };
+
+        });
 
         this.nextButton = document.getElementById("galleryNext");
 
         this.bindEvents();
     }
-    // } createGallery() {
-    //     const container = this.scene.querySelector(".gallery-container");
-    //     if (!container) return; container.innerHTML = ""; this.photos.forEach((photo, index) => {
-    //         const card = document.createElement("div");
-    //         card.className = "photo-card";
-    //         const rotation = Utils.random(-8, 8); card.style.transform = `rotate(${rotation}deg)`; card.innerHTML = `                <div class="polaroid">                    <img 
-    //                 src="${photo.src}"
-    //                 loading="lazy"
-    //                 >                    <p>
-    //                 ${photo.caption}
-    //                 </p>                </div>            `; card.addEventListener("click", () => this.open(index)); container.appendChild(card);
-    //     }); this.cards = [...container.children
-
-    //     ];
-
-    // }
     async finish() {
         if (this.finished)
             return;
@@ -200,7 +231,15 @@ class GalleryEngine {
             &#10095;
         </button>
 
-        <p>${photo.caption}</p>
+        <div class="viewer-content">
+
+    <h2>${photo.caption}</h2>
+
+    <div class="viewer-letter">
+        ${photo.letter}
+    </div>
+
+</div>
 
     </div>
 `;
