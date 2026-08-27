@@ -16,6 +16,9 @@ class CakeEngine {
 
         this.candles = [];
         this.effects = new Set();
+        this.confettiFrame = null;
+        this.confettiTimer = null;
+        this.confettiTween = null;
 
         this.finished = false;
         this.blown = false;
@@ -216,54 +219,42 @@ class CakeEngine {
     }
 
     async blowCandles() {
-        if (
-            this.blown ||
-            !this.cake ||
-            !window.gsap
-        ) {
-            return;
-        }
+        if (this.blown || this.finished) return;
 
         this.blown = true;
 
         const activeRun = this.runId;
 
         this.candles.forEach(candle => {
-            /*
-             * Matikan flameFlicker agar transform
-             * tidak bertabrakan dengan GSAP.
-             */
+            if (!candle.flame) return;
+
             candle.flame.style.animation = "none";
+            gsap.killTweensOf(candle.flame);
 
-            window.gsap.killTweensOf(candle.flame);
-
-            window.gsap.to(candle.flame, {
+            gsap.to(candle.flame, {
                 opacity: 0,
-                scale: .2,
+                scale: 0.2,
                 y: -20,
-                duration: this.reduceMotion ? .01 : .5,
-                ease: "power2.out"
+                duration: this.reduceMotion ? 0 : 0.4,
+                ease: "power2.out",
+                overwrite: true
             });
         });
 
-        /*
-         * Menampilkan teks kedua.
-         */
         this.showWish();
 
-        this.createConfetti();
-
-        if (
-            window.AudioManager &&
-            typeof window.AudioManager.cakeVolume ===
-                "function"
-        ) {
-            window.AudioManager.cakeVolume();
+        /*
+         * Tetap jalankan audio dari event pengguna.
+         */
+        if (window.AudioManager) {
+            AudioManager.cakeVolume();
         }
 
         /*
-         * Beri waktu sebelum teks ketiga.
+         * Confetti dijalankan setelah respons klik sempat dilukis.
          */
+        this.scheduleConfetti(activeRun);
+
         await Utils.sleep(1200);
 
         if (activeRun !== this.runId) return;
@@ -274,7 +265,40 @@ class CakeEngine {
 
         if (activeRun !== this.runId) return;
 
-        await this.finish(activeRun);
+        await this.finish();
+    }
+    scheduleConfetti(activeRun) {
+        if (this.reduceMotion) return;
+
+        if (this.confettiFrame) {
+            cancelAnimationFrame(this.confettiFrame);
+        }
+
+        if (this.confettiTimer) {
+            clearTimeout(this.confettiTimer);
+        }
+
+        /*
+         * requestAnimationFrame berjalan sebelum paint.
+         * setTimeout membuat confetti dimulai setelah paint tersebut.
+         */
+        this.confettiFrame = requestAnimationFrame(() => {
+            this.confettiFrame = null;
+
+            this.confettiTimer = setTimeout(() => {
+                this.confettiTimer = null;
+
+                if (
+                    activeRun !== this.runId ||
+                    !this.blown ||
+                    this.finished
+                ) {
+                    return;
+                }
+
+                this.createConfetti();
+            }, 0);
+        });
     }
 
     showWish() {
@@ -313,83 +337,82 @@ class CakeEngine {
     createConfetti() {
         if (this.reduceMotion) return;
 
-        const configAmount =
-            Number(CONFIG.CAKE.CONFETTI) || 30;
+        const configuredAmount =
+            Number(CONFIG.CAKE.CONFETTI) || 0;
 
+        /*
+         * 8 cukup untuk HP.
+         * Desktop dibatasi 28.
+         */
         const amount = Math.min(
-            configAmount,
-            this.isMobile ? 20 : 60
+            configuredAmount,
+            this.isMobile ? 8 : 28
         );
 
-        const fragment =
-            document.createDocumentFragment();
+        if (amount <= 0) return;
 
+        const fragment = document.createDocumentFragment();
         const pieces = [];
+        const movement = [];
 
-        const startX =
-            window.innerWidth / 2;
-
-        const startY =
-            window.innerHeight / 2;
+        const startX = window.innerWidth / 2;
+        const startY = window.innerHeight / 2;
 
         for (let i = 0; i < amount; i++) {
-            const piece =
-                document.createElement("span");
+            const piece = document.createElement("span");
 
             piece.className = "confetti";
 
             piece.style.left = `${startX}px`;
             piece.style.top = `${startY}px`;
+            piece.style.willChange = "transform, opacity";
 
-            fragment.appendChild(piece);
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Utils.random(
+                80,
+                this.isMobile ? 230 : 400
+            );
+
+            movement.push({
+                x: Math.cos(angle) * distance,
+                y: Math.sin(angle) * distance + 220,
+                scale: Utils.random(0.5, 1.2),
+                rotation: Utils.random(-360, 360),
+                duration: Utils.random(1.2, 2)
+            });
 
             pieces.push(piece);
             this.effects.add(piece);
+            fragment.appendChild(piece);
         }
 
-        /*
-         * Masukkan semua elemen dalam satu operasi DOM.
-         */
         document.body.appendChild(fragment);
 
-        pieces.forEach(piece => {
-            const angle =
-                Math.random() * Math.PI * 2;
+        /*
+         * Satu operasi set dan satu tween batch,
+         * bukan satu tween terpisah per confetti.
+         */
+        gsap.set(pieces, {
+            scale: index => movement[index].scale
+        });
 
-            const distance =
-                Utils.random(
-                    this.isMobile ? 80 : 100,
-                    this.isMobile ? 260 : 500
-                );
+        this.confettiTween = gsap.to(pieces, {
+            x: index => movement[index].x,
+            y: index => movement[index].y,
+            rotation: index => movement[index].rotation,
+            duration: index => movement[index].duration,
+            opacity: 0,
+            stagger: 0.01,
+            ease: "power2.out",
 
-            window.gsap.set(piece, {
-                scale: Utils.random(.5, 1.25)
-            });
+            onComplete: () => {
+                pieces.forEach(piece => {
+                    piece.remove();
+                    this.effects.delete(piece);
+                });
 
-            window.gsap.to(piece, {
-                x:
-                    Math.cos(angle) *
-                    distance,
-
-                y:
-                    Math.sin(angle) *
-                    distance +
-                    (this.isMobile ? 180 : 300),
-
-                rotation:
-                    Utils.random(-540, 540),
-
-                opacity: 0,
-
-                duration:
-                    Utils.random(1.4, 2.4),
-
-                ease: "power2.out",
-
-                onComplete: () => {
-                    this.removeEffect(piece);
-                }
-            });
+                this.confettiTween = null;
+            }
         });
     }
 
@@ -525,6 +548,24 @@ class CakeEngine {
     }
 
     cleanupEffects() {
+        if (this.confettiFrame) {
+            cancelAnimationFrame(this.confettiFrame);
+            this.confettiFrame = null;
+        }
+
+        if (this.confettiTimer) {
+            clearTimeout(this.confettiTimer);
+            this.confettiTimer = null;
+        }
+
+        /*
+         * Hentikan animasi confetti yang sedang berjalan.
+         */
+        if (this.confettiTween) {
+            this.confettiTween.kill();
+            this.confettiTween = null;
+        }
+
         this.effects.forEach(element => {
             if (window.gsap) {
                 window.gsap.killTweensOf(element);
@@ -557,7 +598,7 @@ class CakeEngine {
         if (
             window.SceneManager &&
             typeof window.SceneManager.flashTransition ===
-                "function"
+            "function"
         ) {
             await window.SceneManager.flashTransition();
         }
@@ -565,7 +606,7 @@ class CakeEngine {
         if (
             window.SceneManager &&
             typeof window.SceneManager.show ===
-                "function"
+            "function"
         ) {
             await window.SceneManager.show("gallery");
         }
@@ -573,7 +614,7 @@ class CakeEngine {
         if (
             window.GalleryEngine &&
             typeof window.GalleryEngine.reveal ===
-                "function"
+            "function"
         ) {
             window.GalleryEngine.reveal();
         }

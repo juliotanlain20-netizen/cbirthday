@@ -39,27 +39,27 @@ class BlessingEngine {
         this.messages = [
             "Before you go...",
 
-            // "Once again, Happy 20th Birthday, Chika.",
+            "Once again, Happy 20th Birthday, Chika.",
 
-            // "May this new chapter bring you endless happiness, gentle peace, and little moments worth remembering.",
+            "May this new chapter bring you endless happiness, gentle peace, and little moments worth remembering.",
 
-            // "May you always find reasons to smile, even on days that feel a little heavier.",
+            "May you always find reasons to smile, even on days that feel a little heavier.",
 
-            // "I hope life brings you kind people, beautiful surprises, and dreams that slowly become reality.",
+            "I hope life brings you kind people, beautiful surprises, and dreams that slowly become reality.",
 
-            // "May you never lose your kindness, your courage, or the light that makes you who you are.",
+            "May you never lose your kindness, your courage, or the light that makes you who you are.",
 
-            // "Keep growing, keep shining, and never stop believing in yourself.",
+            "Keep growing, keep shining, and never stop believing in yourself.",
 
-            // "And above all, may God walk beside you through every season of life, protect your heart, guide your steps, and bless every dream you carry.",
+            "And above all, may God walk beside you through every season of life, protect your heart, guide your steps, and bless every dream you carry.",
 
-            // "May your twenties be filled with love, laughter, meaningful memories, and stories you'll one day look back on with a grateful heart.",
+            "May your twenties be filled with love, laughter, meaningful memories, and stories you'll one day look back on with a grateful heart.",
 
-            // "Thank you for taking a little journey through this page.",
+            "Thank you for taking a little journey through this page.",
 
-            // "Happy Birthday, Chika.",
+            "Happy Birthday, Chika.",
 
-            // "May God bless you, always."
+            "May God bless you, always."
         ];
 
         this.handleNextClick = async event => {

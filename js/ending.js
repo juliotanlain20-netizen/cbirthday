@@ -1,119 +1,233 @@
 /**
  * =====================================================
  * PROJECT AURORA
- * ENDING ENGINE
+ * LIGHTWEIGHT ENDING ENGINE
  * =====================================================
  */
 
 "use strict";
+
 class EndingEngine {
+
     constructor() {
         this.scene = null;
+        this.moon = null;
+        this.content = null;
+
         this.started = false;
         this.finished = false;
+        this.prepared = false;
+
+        this.reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
     }
+
     init() {
         this.scene =
             document.getElementById("ending");
-        if (!this.scene)
-            return;
+
+        if (!this.scene) return;
+
+        this.moon =
+            this.scene.querySelector(".moon");
+
+        this.content =
+            this.scene.querySelector(
+                ".endingContent"
+            );
+
+        this.prepare();
     }
-    async start() {
-        if (this.started)
+
+    prepare() {
+        if (
+            !this.moon ||
+            !this.content
+        ) {
             return;
+        }
+
+        this.prepared = true;
+
+        /*
+         * Hindari CSS moonFloat berjalan bersamaan.
+         */
+        this.moon.style.animation = "none";
+        this.content.style.animation = "none";
+
+        if (window.gsap) {
+            window.gsap.killTweensOf(
+                this.moon
+            );
+
+            window.gsap.killTweensOf(
+                this.content
+            );
+
+            window.gsap.set(this.moon, {
+                autoAlpha: 0,
+                scale: .9,
+                y: 25
+            });
+
+            window.gsap.set(this.content, {
+                autoAlpha: 0,
+                y: 18
+            });
+        } else {
+            this.moon.style.opacity = "0";
+            this.moon.style.visibility =
+                "hidden";
+
+            this.content.style.opacity = "0";
+            this.content.style.visibility =
+                "hidden";
+        }
+    }
+
+    start() {
+        if (
+            this.started ||
+            !this.moon ||
+            !this.content
+        ) {
+            return;
+        }
+
         this.started = true;
-        AudioManager.endingVolume();
-        await Utils.sleep(1000);
-        this.revealMoon();
-        await Utils.sleep(1500);
-        this.showMessage();
-        this.enhanceStars();
-    }
+        this.finished = false;
 
+        if (!this.prepared) {
+            this.prepare();
+        }
 
-    revealMoon() {
-        const moon =
-            document.querySelector(".moon");
-        if (!moon)
+        if (
+            window.AudioManager &&
+            typeof window.AudioManager.endingVolume ===
+                "function"
+        ) {
+            window.AudioManager.endingVolume();
+        }
+
+        /*
+         * Fallback tanpa GSAP.
+         */
+        if (
+            !window.gsap ||
+            this.reduceMotion
+        ) {
+            this.moon.style.opacity = "1";
+            this.moon.style.visibility =
+                "visible";
+
+            this.content.style.opacity = "1";
+            this.content.style.visibility =
+                "visible";
+
             return;
-        gsap.fromTo(
-            moon,
-            {
-                scale: .5,
-                opacity: 0,
-                y: 100
-            },
-            {
-                scale: 1,
-                opacity: 1,
-                y: 0,
-                duration: 2,
-                ease: "power3.out"
-            }
-        );
-        gsap.to(
-            moon,
-            {
-                y: -15,
-                duration: 4,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            }
-        );
-    }
-    showMessage() {
-        const message =
-            document.querySelector(".endingContent");
-        if (!message)
-            return;
-        gsap.fromTo(
-            message,
-            {
-                opacity: 0,
-                y: 50
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 2,
-                delay: .5
-            }
-        );
+        }
 
+        /*
+         * Bulan muncul secara singkat dan lembut.
+         */
+        window.gsap.to(this.moon, {
+            autoAlpha: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.1,
+            ease: "power2.out",
+            overwrite: "auto",
+
+            onComplete: () => {
+                window.gsap.set(
+                    this.moon,
+                    {
+                        clearProps: "transform"
+                    }
+                );
+            }
+        });
+
+        /*
+         * Tulisan mulai 0,25 detik setelah bulan.
+         * Tidak perlu menunggu beberapa detik.
+         */
+        window.gsap.to(this.content, {
+            autoAlpha: 1,
+            y: 0,
+            duration: .9,
+            delay: .25,
+            ease: "power2.out",
+            overwrite: "auto",
+
+            onComplete: () => {
+                window.gsap.set(
+                    this.content,
+                    {
+                        clearProps: "transform"
+                    }
+                );
+            }
+        });
+
+        /*
+         * StarEngine dibiarkan seperti semula.
+         * Tidak ada createStars() dan tidak ada 500 bintang.
+         */
     }
-    enhanceStars() {
-        if (!window.StarEngine) return;
-        CONFIG.STARS.COUNT = 500;
-        window.StarEngine.starCount = CONFIG.STARS.COUNT;
-        window.StarEngine.createStars();
-    }
+
     async finish() {
+        if (this.finished) return;
+
         this.finished = true;
-        AudioManager.finalFade();
+
+        if (
+            window.AudioManager &&
+            typeof window.AudioManager.finalFade ===
+                "function"
+        ) {
+            window.AudioManager.finalFade();
+        }
+
         await Utils.sleep(6000);
-        this.lock();
-    }
-    lock() {
+
         document.body.dataset.completed =
             "true";
     }
+
     reset() {
         this.started = false;
         this.finished = false;
-        const moon = document.querySelector(".moon");
-        const content = document.querySelector(".endingContent");
-        gsap.set(moon, {
-            opacity: 0
-        });
+        this.prepared = false;
 
-        gsap.set(content, {
-            opacity: 0
-        });
+        if (window.gsap) {
+            window.gsap.killTweensOf(
+                this.moon
+            );
+
+            window.gsap.killTweensOf(
+                this.content
+            );
+        }
+
+        this.prepare();
+
+        delete document.body.dataset.completed;
+    }
+
+    destroy() {
+        this.reset();
+
+        this.scene = null;
+        this.moon = null;
+        this.content = null;
     }
 }
+
 window.EndingEngine =
     new EndingEngine();
+
 console.log(
-    "✓ Ending Engine Loaded"
+    "✓ Lightweight Ending Engine Loaded"
 );
