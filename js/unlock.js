@@ -85,10 +85,10 @@ class UnlockEngine {
         if (!this.error) return;
         const messages = [
             "Hmm... not quite.",
+            "tanggal lahirmu cil",
             "Close... but not today.",
             "A small hint: October.",
             "One more try.",
-            "tanggal lahirmu cil"
         ];
         this.error.innerHTML =
             messages[Math.min(
@@ -151,6 +151,7 @@ class UnlockEngine {
         if (this.correct) return;
         this.correct = true;
         this.locked = true;
+        window.State ??= {};
         window.State.unlocked = true;
         this.button.disabled = true;
         this.button.innerHTML = "Unlocked";
@@ -173,7 +174,13 @@ class UnlockEngine {
         this.breakGlass();
         this.createBurst();
         this.showSuccessMessage();
-        AudioManager.storyVolume();
+        if (
+            window.AudioManager &&
+            typeof window.AudioManager.storyVolume ===
+            "function"
+        ) {
+            window.AudioManager.storyVolume();
+        }
         await Utils.sleep(2200);
         await this.transitionToStory();
     }
@@ -207,51 +214,106 @@ class UnlockEngine {
         );
     }
     createBurst() {
-        const total = 80;
+        const isMobile = window.matchMedia(
+            "(max-width: 768px), (pointer: coarse)"
+        ).matches;
+
+        const reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        if (reduceMotion) return;
+
+        const total = isMobile ? 24 : 60;
+
+        const fragment =
+            document.createDocumentFragment();
+
+        const particles = [];
+
         for (let i = 0; i < total; i++) {
-            const p = document.createElement("span");
-            p.className = "unlock-particle";
-            document.body.appendChild(p);
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Utils.random(80, 220);
-            const x = Math.cos(angle) * distance;
-            const y = Math.sin(angle) * distance;
-            gsap.set(p, {
-                left: window.innerWidth / 2,
-                top: window.innerHeight / 2,
+            const particle =
+                document.createElement("span");
+
+            particle.className =
+                "unlock-particle";
+
+            particle.style.left =
+                `${window.innerWidth / 2}px`;
+
+            particle.style.top =
+                `${window.innerHeight / 2}px`;
+
+            fragment.appendChild(particle);
+            particles.push(particle);
+        }
+
+        document.body.appendChild(fragment);
+
+        particles.forEach(particle => {
+            const angle =
+                Math.random() * Math.PI * 2;
+
+            const distance = Utils.random(
+                isMobile ? 60 : 80,
+                isMobile ? 150 : 220
+            );
+
+            gsap.set(particle, {
                 opacity: 1,
-                scale: Utils.random(.5, 1.6)
+                scale: Utils.random(.5, 1.3)
             });
-            gsap.to(p, {
-                x,
-                y,
+
+            gsap.to(particle, {
+                x: Math.cos(angle) * distance,
+                y: Math.sin(angle) * distance,
+
                 opacity: 0,
                 rotation: Utils.random(-360, 360),
-                duration: Utils.random(.8, 1.6),
+
+                duration: Utils.random(.8, 1.4),
                 ease: "power3.out",
-                onComplete() {
-                    p.remove();
+
+                onComplete: () => {
+                    particle.remove();
                 }
             });
-        }
+        });
     }
     showSuccessMessage() {
-        const message = document.createElement("div");
-        message.className = "unlock-success-message";
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "unlock-success-message";
+
         message.innerHTML =
             "Welcome.<br>The night is waiting.";
-        document.body.appendChild(message);
-         gsap.to("#stars", {
-            filter: "blur(8px)",
-            opacity: 0.25,
-            duration: .6
-        });
 
-        gsap.to("#aurora", {
-            filter: "blur(90px)",
-            opacity: .35,
-            duration: .6
-        });
+        document.body.appendChild(message);
+
+        const isMobile = window.matchMedia(
+            "(max-width: 768px), (pointer: coarse)"
+        ).matches;
+
+        /*
+         * Desktop hanya meredupkan background.
+         * HP tidak mengubah background sama sekali.
+         */
+        if (!isMobile) {
+            gsap.to("#stars", {
+                opacity: .35,
+                duration: .5,
+                overwrite: "auto"
+            });
+
+            gsap.to("#aurora", {
+                opacity: .3,
+                duration: .5,
+                overwrite: "auto"
+            });
+        }
+
         gsap.fromTo(
             message,
             {
@@ -263,34 +325,41 @@ class UnlockEngine {
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                duration: .8,
+                duration: .7,
                 ease: "power3.out"
             }
         );
-        gsap.to(
-            message,
-            {
-                opacity: 0,
-                delay: 1.8,
-                duration: .8,
-                onComplete() {
-                    message.remove();
-                }
+
+        gsap.to(message, {
+            opacity: 0,
+            delay: 1.6,
+            duration: .6,
+
+            onComplete: () => {
+                message.remove();
+
+                /*
+                 * Hapus inline style GSAP.
+                 * Setelah itu kembali mengikuti CSS final.
+                 */
+                gsap.set("#stars", {
+                    clearProps: "opacity,filter"
+                });
+
+                gsap.set("#aurora", {
+                    clearProps: "opacity,filter"
+                });
             }
-        );
-        
+        });
     }
     async transitionToStory() {
-        console.log("TRANSITION");   
+        console.log("TRANSITION");
+
         await SceneManager.flashTransition();
         await SceneManager.overlayIn();
-        await Utils.sleep(300);
-        // reset StoryEngine
+        await SceneManager.show("story");
         await window.StoryEngine.start();
-        // tampilkan scene
-    await SceneManager.show("story");
-        // setelah scene aktif baru tampilkan isi
-        await window.StoryEngine.show();
+
         await SceneManager.overlayOut();
     }
     reset() {

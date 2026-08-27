@@ -20,12 +20,12 @@ class IntroEngineCore {
         this.timeline = null;
         this.messages = [
             "Some days...",
-            "are just ordinary.",
-            "But once every year...",
-            "One day belongs to one person.",
-            "Today...",
-            "is yours.",
-            "Happy Birthday."
+            // "are just ordinary.",
+            // "But once every year...",
+            // "One day belongs to one person.",
+            // "Today...",
+            // "is yours.",
+            // "Happy Birthday."
         ];
         this.index = 0;
     }

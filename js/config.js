@@ -57,22 +57,22 @@ window.CONFIG = {
         CONFETTI: 250
     },
     COLORS: {
-        BG:"#060913",
-        GOLD:"#D8B46A",
-        WHITE:"#F5F5F5",
-        BLUE:"#7FAEFF"
+        BG: "#060913",
+        GOLD: "#D8B46A",
+        WHITE: "#F5F5F5",
+        BLUE: "#7FAEFF"
     },
     METEOR: {
-    MIN_INTERVAL: 1200,
-    MAX_INTERVAL: 3500,
-    MIN_SIZE: 1,
-    MAX_SIZE: 3,
-    MIN_SPEED: 5,
-    MAX_SPEED: 10,
-    MIN_LENGTH: 120,
-    MAX_LENGTH: 260,
-    OPACITY: .85
-}
+        MIN_INTERVAL: 1200,
+        MAX_INTERVAL: 3500,
+        MIN_SIZE: 1,
+        MAX_SIZE: 3,
+        MIN_SPEED: 5,
+        MAX_SPEED: 10,
+        MIN_LENGTH: 120,
+        MAX_LENGTH: 260,
+        OPACITY: .85
+    }
 };
 window.State = {
     unlocked: false,

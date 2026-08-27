@@ -25,41 +25,40 @@ class GalleryEngine {
         ];
 
         const letters = {
-            "Toxic.": `
+            "Growth": `
         <p>
-            This photo still makes me laugh every single time. Every angel deserves a little bit of chaos now and then.  I think this picture proves it.
+            Maybe not everyone gets to see this side of you. Quiet effort, long hours, and countless little things that make you who you are.
         </p>
 
     `,
-            "Mini.": `
+            "Pocket-Sized": `
         <p>
             I wonder what little Chika dreamed about back then. Whatever those dreams were, I hope she'd be proud of the wonderful person you've become today.Happy 20th Birthday, little one.
         </p>
     `,
 
-            "Cute.": `
+            "Cute": `
         <p>
             Some smiles never really change. This one still feels just as warm as the first time I saw it. I hope life never takes away this part of you.
         </p>
     `,
 
-            "Beautiful.": `
+            "Beautiful": `
          <p>
             There are probably prettier photos. But somehow... This one has always felt the most "you" to me.
         </p>
     `,
 
-            "Radiance.": `
+            "Radiance": `
         <p>
             Some people simply have a way of brightening a room without trying.This photo reminds me of that kind of light. Quiet, gentle, and unforgettable.
         </p>
 
     `,
 
-            "Stunning.": `
+            "Stunning": `
         <p>
-            Twenty looks beautiful on you.
-             I genuinely hope life keeps being kind to the wonderful person you are.
+            I don't think this one needs an explanation.
         </p>
     `
         };
@@ -125,10 +124,8 @@ class GalleryEngine {
         window.addEventListener(
             "mousemove",
             e => {
-
                 this.mouse.x = e.clientX;
                 this.mouse.y = e.clientY;
-
                 this.parallax();
 
             }
