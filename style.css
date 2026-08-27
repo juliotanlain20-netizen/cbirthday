@@ -4235,11 +4235,9 @@ body::after {
         margin: 0 0 32px;
 
         text-align: center;
-        font-size: clamp(
-            2.4rem,
-            12vw,
-            3.4rem
-        );
+        font-size: clamp(2.4rem,
+                12vw,
+                3.4rem);
     }
 
     .galleryGrid {
@@ -4256,7 +4254,7 @@ body::after {
         margin: 0 auto;
     }
 
-    #gallery > button {
+    #gallery>button {
         flex: none;
         width: auto;
         margin: 36px auto 20px;
@@ -4269,7 +4267,8 @@ body::after {
    Hanya aktif pada perangkat sentuh
 ========================================================== */
 
-@media (hover: none) and (pointer: coarse) {
+@media (max-width: 768px),
+(hover: none) and (pointer: coarse) {
 
     :root {
         --blur: 0px;
@@ -4358,11 +4357,117 @@ body::after {
 
     .moon {
         box-shadow:
-            0 0 25px
-            rgba(255, 255, 255, .28);
+            0 0 25px rgba(255, 255, 255, .28);
     }
 
-    .intro-content > * {
+    .intro-content>* {
         will-change: auto;
+    }
+}
+
+/* ==========================================================
+   CAKE PERFORMANCE — MOBILE
+========================================================== */
+
+@media (max-width: 768px),
+(hover: none) and (pointer: coarse) {
+
+    /*
+     * Pastikan custom cursor desktop benar-benar mati.
+     */
+    #cursor,
+    #cursor-dot {
+        display: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /*
+     * Cake tidak perlu bergerak terus.
+     * GSAP masih tetap bisa menggerakkan cake.
+     */
+    #celebration #cake {
+        animation: none !important;
+    }
+
+    /*
+     * Api tetap terlihat, tetapi tanpa drop-shadow.
+     * GSAP tetap bisa mematikan apinya.
+     */
+    #celebration .flame {
+        animation: none !important;
+        filter: none !important;
+    }
+
+    /*
+     * Glow cake sudah memakai radial-gradient,
+     * sehingga blur tambahan tidak diperlukan.
+     */
+    #celebration #cake::before {
+        filter: none !important;
+        opacity: .75;
+    }
+
+    /*
+     * Ganti blur shadow dengan gradient ringan.
+     */
+    #celebration .cake-shadow {
+        filter: none !important;
+
+        background:
+            radial-gradient(ellipse at center,
+                rgba(0, 0, 0, .35) 0%,
+                rgba(0, 0, 0, .18) 45%,
+                transparent 75%);
+    }
+
+    /*
+     * Kurangi glow pada lilin.
+     */
+    #celebration .candle {
+        box-shadow:
+            0 0 6px rgba(255, 255, 255, .2);
+    }
+
+    /*
+     * Shadow tombol lebih ringan.
+     */
+    #blowBtn {
+        box-shadow:
+            0 8px 20px rgba(103, 216, 255, .2);
+
+        transition:
+            transform .15s ease;
+    }
+
+    /*
+     * Hover sering tertinggal pada layar sentuh.
+     */
+    #blowBtn:hover {
+        transform: none;
+
+        box-shadow:
+            0 8px 20px rgba(103, 216, 255, .2);
+    }
+
+    #blowBtn:active {
+        transform: scale(.97);
+    }
+
+    /*
+     * Efek yang muncul setelah lilin ditiup.
+     */
+    .confetti,
+    .gold-particle {
+        filter: none !important;
+        box-shadow: none !important;
+        will-change: transform, opacity;
+    }
+
+    .candle-smoke {
+        filter: none !important;
+
+        background:
+            rgba(255, 255, 255, .28);
     }
 }
