@@ -90,47 +90,26 @@ class AudioManagerCore{
         if (!this.audio) return;
 
         this.audio.pause();
-
     }
-
     resume() {
-
         if (!this.audio) return;
-
         if (!this.started) return;
-
         this.audio.play().catch(() => {});
-
     }
-
     stop() {
-
         if (!this.audio) return;
-
         this.audio.pause();
-
         this.audio.currentTime = 0;
-
         this.started = false;
-
     }
-
     async fadeIn(duration = CONFIG.MUSIC.FADE_DURATION) {
-
         if (!this.started) {
-
             await this.play();
-
         }
-
         this.fadeTo(this.targetVolume, duration);
-
     }
-
     fadeOut(duration = CONFIG.MUSIC.FADE_DURATION) {
-
         this.fadeTo(0, duration);
-
     }
 
     fadeTo(volume, duration = 2000) {
